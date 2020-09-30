@@ -16,8 +16,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "metaformTreeDataProvider.getMetaform",
-				"title": "Get Metaform"
+				"command": "metaformTreeDataProvider.downloadMetaform",
+				"title": "Download Metaform"
 			},
 			{
 				"command": "metaformTreeDataProvider.putMetaform",
@@ -26,21 +26,29 @@
 			{
 				"command": "metaformTreeDataProvider.deleteMetaform",
 				"title": "Delete Metaform"
+			},
+			{
+				"command": "metaformTreeDataProvider.downloadPdfExportTheme",
+				"title": "Download PDF export theme"
+			},
+			{
+				"command": "metaformTreeDataProvider.updatePdfExportTheme",
+				"title": "Update PDF export theme"
 			}
 		],
 		"views": {
 			"explorer": [
 				{
 					"id": "metaformTreeDataProvider",
-					"name": "Metaforms",
-					"contextualTitle": "Metaforms"
+					"name": "Metaform",
+					"contextualTitle": "Metaform"
 				}
 			]
 		},
 		"menus": {
 			"view/item/context": [
 				{
-					"command": "metaformTreeDataProvider.getMetaform",
+					"command": "metaformTreeDataProvider.downloadMetaform",
 					"when": "view == metaformTreeDataProvider && viewItem == metaform"
 				},
 				{
@@ -50,6 +58,14 @@
 				{
 					"command": "metaformTreeDataProvider.deleteMetaform",
 					"when": "view == metaformTreeDataProvider && viewItem == metaform"
+				},
+				{
+					"command": "metaformTreeDataProvider.downloadPdfExportTheme",
+					"when": "view == metaformTreeDataProvider && viewItem == pdfexporttheme"
+				},
+				{
+					"command": "metaformTreeDataProvider.updatePdfExportTheme",
+					"when": "view == metaformTreeDataProvider && viewItem == pdfexporttheme"
 				}
 			]
 		},
