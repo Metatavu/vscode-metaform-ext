@@ -1,7 +1,7 @@
 import Auth from "../auth";
 import Config from "../config";
 // eslint-disable-next-line max-len
-import { Authentication, Metaform, MetaformsApi, OAuth, RepliesApi } from "../generated/client/api";
+import { Authentication, Metaform, MetaformsApi, OAuth} from "../generated/client/api";
 
 interface AuthenticatedApi {  
   setDefaultAuthentication: (auth: Authentication) => void
@@ -14,8 +14,7 @@ export default new class Api {
   public async listMetaforms() {
     try {
       const api = await this.getMetaformsApi();
-      const realmId = Config.getAuthConfig().realm;
-      return (await api.listMetaforms(realmId)).body;
+      return (await api.listMetaforms()).body;
     } catch (e) {
       console.error("Failed to list metaforms", e);
       throw e;
@@ -25,8 +24,7 @@ export default new class Api {
   public async findMetaform(id: string) {
     try {
       const api = await this.getMetaformsApi();
-      const realmId = Config.getAuthConfig().realm;
-      return (await api.findMetaform(realmId, id)).body;
+      return (await api.findMetaform(id)).body;
     } catch (e) {
       console.error("Failed to find metaform", e);
       throw e;
@@ -36,8 +34,7 @@ export default new class Api {
   public async updateMetaform(metaform: Metaform) {
     try {
       const api = await this.getMetaformsApi();
-      const realmId = Config.getAuthConfig().realm;
-      (await api.updateMetaform(metaform, realmId, metaform.id!));
+      (await api.updateMetaform(metaform, metaform.id!));
     } catch (e) {
       console.error("Failed to delete metaform", e);
       throw e;
@@ -47,8 +44,7 @@ export default new class Api {
   public async deleteMetaform(id: string) {
     try {
       const api = await this.getMetaformsApi();
-      const realmId = Config.getAuthConfig().realm;
-      (await api.deleteMetaform(realmId, id));
+      (await api.deleteMetaform(id));
     } catch (e) {
       console.error("Failed to delete metaform", e);
       throw e;
