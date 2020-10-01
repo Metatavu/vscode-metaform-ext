@@ -28,6 +28,11 @@ const readTree = async (folder: string): Promise<string[]> => {
   return subfiles.reduce((a, b) => a.concat(b, []));
 }
 
+/**
+ * Method for extension activation
+ * 
+ * @param context extension context
+ */
 export function activate(context: vscode.ExtensionContext) {
 
 	const metaformTreeDataProvider = new MetaformTreeDataProvider();

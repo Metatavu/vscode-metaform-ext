@@ -9,6 +9,9 @@ interface AuthenticatedApi {
 
 const basePath = Config.getApiConfig().url;
 
+/**
+ * Class for handling API operations
+ */
 export default new class Api {
 
   /**

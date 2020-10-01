@@ -12,10 +12,16 @@ export interface AccessToken {
   userId?: string;
 }
 
+/**
+ * Interface describing API config
+ */
 export interface ApiConfig {
 	url: string;	
 }
 
+/**
+ * Interface describing authentication config
+ */
 export interface AuthConfig {
 	serverUrl: string;
 	realm: string;

@@ -1,11 +1,18 @@
 import * as request from 'request';
-import * as http from 'http';
 import Config from "../config";
-import { URL, URLSearchParams } from 'url';
+import { URLSearchParams } from 'url';
 import { AccessToken } from '../types';
 
+/**
+ * Class for handling authentication related operataions
+ */
 export default class Auth {
 
+  /**
+   * Resolves an access token and returns it
+   * 
+   * @returns an access token
+   */
   public static async getAccessToken(): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
       const authConfig = Config.getAuthConfig();
