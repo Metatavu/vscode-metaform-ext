@@ -7,10 +7,14 @@ import { ExportTheme, Metaform } from '../generated/client/api';
  */
 export class MetaformTreeDataProvider implements vscode.TreeDataProvider<AbstractTreeItem> {
 
+	private _onDidChangeTreeData: vscode.EventEmitter<AbstractTreeItem | undefined> = new vscode.EventEmitter<AbstractTreeItem | undefined>();
+	readonly onDidChangeTreeData: vscode.Event<AbstractTreeItem | undefined> = this._onDidChangeTreeData.event;
+
 	/**
 	 * Refreshes the tree
 	 */
 	public refresh(): void {
+		this._onDidChangeTreeData.fire(undefined);
 	}
 
 	/**
@@ -30,7 +34,7 @@ export class MetaformTreeDataProvider implements vscode.TreeDataProvider<Abstrac
 	 * @returns child items
 	 */
 	public getChildren(element?: AbstractTreeItem): Thenable<MetaformTreeItem[]> {
-		switch (element?.contextValue || "") {
+    switch (element?.contextValue || "") {
 			case 'metaforms':
 				return this.listMetaformItems();
 			case 'pdfexportthemes':

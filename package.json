@@ -34,6 +34,14 @@
 			{
 				"command": "metaformTreeDataProvider.updatePdfExportTheme",
 				"title": "Update PDF export theme"
+			},
+			{
+				"command": "metaformTreeDataProvider.refresh",
+				"title": "Refresh Metaform view",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
 			}
 		],
 		"views": {
@@ -46,6 +54,13 @@
 			]
 		},
 		"menus": {
+			"view/title": [
+				{
+						"command": "metaformTreeDataProvider.refresh",
+						"when": "view == metaformTreeDataProvider",
+						"group": "navigation"
+				}
+      ],
 			"view/item/context": [
 				{
 					"command": "metaformTreeDataProvider.downloadMetaform",

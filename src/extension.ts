@@ -30,10 +30,11 @@ const readTree = async (folder: string): Promise<string[]> => {
 
 export function activate(context: vscode.ExtensionContext) {
 
-	vscode.window.registerTreeDataProvider('metaformTreeDataProvider', new MetaformTreeDataProvider());
+	const metaformTreeDataProvider = new MetaformTreeDataProvider();
+	vscode.window.registerTreeDataProvider('metaformTreeDataProvider', metaformTreeDataProvider);
+	vscode.commands.registerCommand('metaformTreeDataProvider.refresh', () => metaformTreeDataProvider.refresh());
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.downloadMetaform', async (node: MetaformTreeItem) => {
-		const id = node.id!;
 		const rootPath = vscode.workspace.rootPath || "";
 		const metaform = await Api.findMetaform(node.id!);
 
