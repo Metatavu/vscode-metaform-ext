@@ -3,6 +3,8 @@
 	"displayName": "metaform",
 	"description": "Metaform admin tools",
 	"version": "1.0.0",
+	"publisher": "metatavu",
+	"repository": "github:Metatavu/vscode-metaform-ext",
 	"engines": {
 		"vscode": "^1.49.0"
 	},
