@@ -1,7 +1,7 @@
 import Auth from "../auth";
 import Config from "../config";
 // eslint-disable-next-line max-len
-import { Authentication, ExportThemeFile, ExportThemeFilesApi, ExportThemesApi, Metaform, MetaformsApi, OAuth} from "../generated/client/api";
+import { Authentication, EmailNotification, EmailNotificationsApi, ExportThemeFile, ExportThemeFilesApi, ExportThemesApi, Metaform, MetaformsApi, OAuth} from "../generated/client/api";
 
 interface AuthenticatedApi {  
   setDefaultAuthentication: (auth: Authentication) => void
@@ -109,6 +109,95 @@ export default new class Api {
   }
 
   /**
+   * Create email notification
+   * 
+   * @param metaformId metaform id
+   * @param emailNotification email notification
+   * @returns create email notification
+   */
+  public async createEmailNotification(metaformId: string, emailNotification: EmailNotification) {
+    try {
+      const api = await this.getEmailNotificationsApi();
+      return (await api.createEmailNotification(emailNotification, metaformId)).body;
+    } catch (e) {
+      console.error("Failed to create email notification", e);
+      throw e;
+    }
+  }
+
+  /**
+   * Lists email notifications from API
+   * 
+   * @param metaformId metaform id
+   * @returns email notifications
+   */
+  public async listEmailNotifications(metaformId: string) {
+    try {
+      const api = await this.getEmailNotificationsApi();
+      return (await api.listEmailNotifications(metaformId)).body;
+    } catch (e) {
+      console.error("Failed to list email notifications", e);
+      throw e;
+    }
+  }
+
+  /**
+   * Update email notification
+   * 
+   * @param metaformId metaform id
+   * @param emailNotification email notification
+   * @returns update email notification
+   */
+  public async updateEmailNotification(metaformId: string, emailNotification: EmailNotification) {
+    try {
+      const api = await this.getEmailNotificationsApi();
+      return (await api.updateEmailNotification(emailNotification, metaformId, emailNotification.id!)).body;
+    } catch (e) {
+      console.error("Failed to update email notification", e);
+      throw e;
+    }
+  }
+
+  /**
+   * Delete email notification
+   * 
+   * @param metaformId metaform id
+   * @param emailNotificationId email notification id
+   */
+  public async deleteEmailNotification(metaformId: string, emailNotificationId: string) {
+    try {
+      const api = await this.getEmailNotificationsApi();
+      return (await api.deleteEmailNotification(metaformId, emailNotificationId));
+    } catch (e) {
+      console.error("Failed to delete email notification", e);
+      throw e;
+    }
+  }
+
+  /**
+   * Find email notification from API
+   * 
+   * @param metaformId metaform id
+   * @param emailNotificationId email notification id
+   * @returns email notification
+   */
+  public async findEmailNotification(metaformId: string, emailNotificationId: string) {
+    try {
+      const api = await this.getEmailNotificationsApi();
+      return (await api.findEmailNotification(metaformId, emailNotificationId)).body;
+    } catch (e) {
+      console.error("Failed to list email notifications", e);
+      throw e;
+    }
+  }
+
+
+
+
+
+
+
+  /**
    * Finds a metaform from API
    * 
    * @param id id
@@ -180,6 +269,18 @@ export default new class Api {
     return await this.applyAuthentication(new ExportThemeFilesApi(basePath));    
   }
 
+  /**
+   * Gets initialized email notifications api
+   */
+  private async getEmailNotificationsApi() {
+    return await this.applyAuthentication(new EmailNotificationsApi(basePath));    
+  }
+
+  /**
+   * Applies authentication to API instance
+   * 
+   * @param api API instance
+   */
   private async applyAuthentication<T extends AuthenticatedApi>(api: T): Promise<T> {
     const accessToken = await this.getAccessToken();
     
@@ -190,6 +291,11 @@ export default new class Api {
     return api;
   }
 
+  /**
+   * Returns access token
+   * 
+   * @returns access token
+   */
   private async getAccessToken(): Promise<string> {
     const accessToken = await Auth.getAccessToken();
     return accessToken?.access_token;

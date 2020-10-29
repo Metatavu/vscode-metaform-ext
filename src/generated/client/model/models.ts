@@ -3,6 +3,7 @@ export * from './badRequest';
 export * from './emailNotification';
 export * from './exportTheme';
 export * from './exportThemeFile';
+export * from './fieldRule';
 export * from './forbidden';
 export * from './internalServerError';
 export * from './metaform';
@@ -18,7 +19,6 @@ export * from './metaformSection';
 export * from './metaformTableColumn';
 export * from './metaformTableColumnType';
 export * from './metaformTableColumnValues';
-export * from './metaformVisibleIf';
 export * from './notFound';
 export * from './notImplemented';
 export * from './reply';
@@ -31,6 +31,7 @@ import { BadRequest } from './badRequest';
 import { EmailNotification } from './emailNotification';
 import { ExportTheme } from './exportTheme';
 import { ExportThemeFile } from './exportThemeFile';
+import { FieldRule } from './fieldRule';
 import { Forbidden } from './forbidden';
 import { InternalServerError } from './internalServerError';
 import { Metaform } from './metaform';
@@ -46,7 +47,6 @@ import { MetaformSection } from './metaformSection';
 import { MetaformTableColumn } from './metaformTableColumn';
 import { MetaformTableColumnType } from './metaformTableColumnType';
 import { MetaformTableColumnValues } from './metaformTableColumnValues';
-import { MetaformVisibleIf } from './metaformVisibleIf';
 import { NotFound } from './notFound';
 import { NotImplemented } from './notImplemented';
 import { Reply } from './reply';
@@ -77,6 +77,7 @@ let typeMap: {[index: string]: any} = {
     "EmailNotification": EmailNotification,
     "ExportTheme": ExportTheme,
     "ExportThemeFile": ExportThemeFile,
+    "FieldRule": FieldRule,
     "Forbidden": Forbidden,
     "InternalServerError": InternalServerError,
     "Metaform": Metaform,
@@ -90,7 +91,6 @@ let typeMap: {[index: string]: any} = {
     "MetaformSection": MetaformSection,
     "MetaformTableColumn": MetaformTableColumn,
     "MetaformTableColumnValues": MetaformTableColumnValues,
-    "MetaformVisibleIf": MetaformVisibleIf,
     "NotFound": NotFound,
     "NotImplemented": NotImplemented,
     "Reply": Reply,

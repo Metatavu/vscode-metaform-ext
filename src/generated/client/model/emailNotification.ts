@@ -11,6 +11,7 @@
  */
 
 import { RequestFile } from '../api';
+import { FieldRule } from './fieldRule';
 
 /**
 * Email notification
@@ -20,6 +21,7 @@ export class EmailNotification {
     'subjectTemplate': string;
     'contentTemplate': string;
     'emails': Array<string>;
+    'notifyIf'?: FieldRule;
 
     static discriminator: string | undefined = undefined;
 
@@ -43,6 +45,11 @@ export class EmailNotification {
             "name": "emails",
             "baseName": "emails",
             "type": "Array<string>"
+        },
+        {
+            "name": "notifyIf",
+            "baseName": "notifyIf",
+            "type": "FieldRule"
         }    ];
 
     static getAttributeTypeMap() {

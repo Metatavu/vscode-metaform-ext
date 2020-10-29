@@ -38,6 +38,22 @@
 				"title": "Update PDF export theme"
 			},
 			{
+				"command": "metaformTreeDataProvider.createEmailNotification",
+				"title": "Create email notification"
+			},
+			{
+				"command": "metaformTreeDataProvider.updateEmailNotification",
+				"title": "Update email notification"
+			},
+			{
+				"command": "metaformTreeDataProvider.deleteEmailNotification",
+				"title": "Delete email notification"
+			},
+			{
+				"command": "metaformTreeDataProvider.downloadEmailNotification",
+				"title": "Download email notification"
+			},
+			{
 				"command": "metaformTreeDataProvider.refresh",
 				"title": "Refresh Metaform view",
 				"icon": {
@@ -58,11 +74,11 @@
 		"menus": {
 			"view/title": [
 				{
-						"command": "metaformTreeDataProvider.refresh",
-						"when": "view == metaformTreeDataProvider",
-						"group": "navigation"
+					"command": "metaformTreeDataProvider.refresh",
+					"when": "view == metaformTreeDataProvider",
+					"group": "navigation"
 				}
-      ],
+			],
 			"view/item/context": [
 				{
 					"command": "metaformTreeDataProvider.downloadMetaform",
@@ -83,6 +99,22 @@
 				{
 					"command": "metaformTreeDataProvider.updatePdfExportTheme",
 					"when": "view == metaformTreeDataProvider && viewItem == pdfexporttheme"
+				},
+				{
+					"command": "metaformTreeDataProvider.createEmailNotification",
+					"when": "view == metaformTreeDataProvider && viewItem == emailnotifications"
+				},
+				{
+					"command": "metaformTreeDataProvider.downloadEmailNotification",
+					"when": "view == metaformTreeDataProvider && viewItem == emailnotification"
+				},
+				{
+					"command": "metaformTreeDataProvider.updateEmailNotification",
+					"when": "view == metaformTreeDataProvider && viewItem == emailnotification"
+				},
+				{
+					"command": "metaformTreeDataProvider.deleteEmailNotification",
+					"when": "view == metaformTreeDataProvider && viewItem == emailnotification"
 				}
 			]
 		},
