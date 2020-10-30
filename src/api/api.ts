@@ -271,6 +271,8 @@ export default new class Api {
 
   /**
    * Gets initialized email notifications api
+   * 
+   * @returns initialized email notifications api
    */
   private async getEmailNotificationsApi() {
     return await this.applyAuthentication(new EmailNotificationsApi(basePath));    
