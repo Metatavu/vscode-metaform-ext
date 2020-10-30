@@ -11,15 +11,15 @@
  */
 
 import { RequestFile } from '../api';
+import { FieldRule } from './fieldRule';
 import { MetaformFieldFlags } from './metaformFieldFlags';
 import { MetaformFieldOption } from './metaformFieldOption';
 import { MetaformFieldPermissionContexts } from './metaformFieldPermissionContexts';
 import { MetaformFieldType } from './metaformFieldType';
 import { MetaformTableColumn } from './metaformTableColumn';
-import { MetaformVisibleIf } from './metaformVisibleIf';
 
 export class MetaformField {
-    'visibleIf'?: MetaformVisibleIf;
+    'visibleIf'?: FieldRule;
     'permissionContexts'?: MetaformFieldPermissionContexts;
     /**
     * Field name
@@ -113,7 +113,7 @@ export class MetaformField {
         {
             "name": "visibleIf",
             "baseName": "visible-if",
-            "type": "MetaformVisibleIf"
+            "type": "FieldRule"
         },
         {
             "name": "permissionContexts",

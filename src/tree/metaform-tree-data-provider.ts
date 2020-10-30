@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import Api from "../api/api";
-import { ExportTheme, Metaform } from '../generated/client/api';
+import { EmailNotification, ExportTheme, Metaform } from '../generated/client/api';
 
 /**
  * Tree data provider for Metaform data
@@ -37,13 +37,35 @@ export class MetaformTreeDataProvider implements vscode.TreeDataProvider<Abstrac
     switch (element?.contextValue || "") {
 			case 'metaforms':
 				return this.listMetaformItems();
+			case 'metaform':
+				const metaformItem = element as MetaformTreeItem;
+				return this.listMetaformRoots(metaformItem.id);
 			case 'pdfexportthemes':
 				return this.listPdfExportThemeItems();
+			case 'emailnotifications':
+				const emailNotificationItem = element as EmailNotificationsTreeItem;
+		    return this.listEmailNotificationItems(emailNotificationItem.metaformId);
 			default:
 				return this.listRootItems();
 		}
 	}
 	
+	/**
+	 * Lists metaform roots
+	 * 
+	 * @param metaformId metaform id
+	 * @returns root tree items
+	 */
+	private async listMetaformRoots(metaformId?: string) {
+		if (!metaformId) {
+			return [];
+		}
+
+		return [
+			new EmailNotificationsTreeItem(metaformId)
+		];
+	}
+
 	/**
 	 * Lists root tree items
 	 * 
@@ -74,6 +96,17 @@ export class MetaformTreeDataProvider implements vscode.TreeDataProvider<Abstrac
   private async listPdfExportThemeItems() {
     const exportThemes = await Api.listExportThemes();
 		return exportThemes.map(exportTheme => new PdfExportThemeTreeItem(exportTheme));
+  }
+
+	/**
+	 * Lists email notifications as tree items
+	 * 
+	 * @param metaformId metaform id
+	 * @returns PDF export themes as tree items
+	 */
+  private async listEmailNotificationItems(metaformId: string) {
+		const emailNotifications = await Api.listEmailNotifications(metaformId);
+		return emailNotifications.map(emailNotification => new EmailNotificationTreeItem(emailNotification, metaformId));
   }
   
 }
@@ -110,6 +143,45 @@ export class MetaformsTreeItem extends AbstractTreeItem {
 	}
 	
 	contextValue = 'metaforms';
+}
+
+/**
+ * Tree item for email notifications folder
+ */
+export class EmailNotificationsTreeItem extends AbstractTreeItem {
+
+	public metaformId: string;
+
+	/**
+	 * Constructor
+	 */
+	constructor(metaformId: string) {
+		super("Email Notifications", vscode.TreeItemCollapsibleState.Expanded);
+		this.metaformId = metaformId;
+	}
+	
+	contextValue = 'emailnotifications';
+}
+
+/**
+ * Tree item for email notification item
+ */
+export class EmailNotificationTreeItem extends AbstractTreeItem {
+
+	public metaformId: string;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param emailNotification email notification
+	 * @param metaformId metaform id
+	 */
+	constructor(emailNotification: EmailNotification, metaformId: string) {
+		super(emailNotification.emails[0] || "Untitled", vscode.TreeItemCollapsibleState.None, emailNotification.id);
+		this.metaformId = metaformId;
+	}
+	
+	contextValue = 'emailnotification';
 }
 
 /**
@@ -155,7 +227,7 @@ export class MetaformTreeItem extends AbstractTreeItem {
 	 * @param metaform metaform
 	 */
 	constructor(metaform: Metaform) {
-		super(metaform.title || metaform.id || "Untitled", vscode.TreeItemCollapsibleState.None, metaform.id);
+		super(metaform.title || metaform.id || "Untitled", vscode.TreeItemCollapsibleState.Expanded, metaform.id);
 	}
 	
 	contextValue = 'metaform';

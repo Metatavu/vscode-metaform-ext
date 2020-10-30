@@ -11,12 +11,12 @@
  */
 
 import { RequestFile } from '../api';
+import { FieldRule } from './fieldRule';
 import { MetaformField } from './metaformField';
-import { MetaformVisibleIf } from './metaformVisibleIf';
 
 export class MetaformSection {
     'title'?: string;
-    'visibleIf'?: MetaformVisibleIf;
+    'visibleIf'?: FieldRule;
     'fields'?: Array<MetaformField>;
 
     static discriminator: string | undefined = undefined;
@@ -30,7 +30,7 @@ export class MetaformSection {
         {
             "name": "visibleIf",
             "baseName": "visible-if",
-            "type": "MetaformVisibleIf"
+            "type": "FieldRule"
         },
         {
             "name": "fields",
