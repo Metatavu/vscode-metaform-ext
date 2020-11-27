@@ -59,6 +59,8 @@
 				"icon": {
 					"light": "resources/light/refresh.svg",
 					"dark": "resources/dark/refresh.svg"
+
+						
 				}
 			}
 		],
@@ -121,14 +123,19 @@
 		"configuration": {
 			"title": "Metaform",
 			"properties": {
-				"metaform.api.url": {
+				"metaform.api.url0": {
 					"type": "string",
-					"default": "https://example-api.metaform.fi/v1",
+					"default": "http://example-api.metaform.fi/v1",
 					"description": "Metaform API URL"
+				},
+				"metaform.api.multipleApis": {
+					"type": "array",
+					"default": [],
+					"description": "Metaform API URLs"
 				},
 				"metaform.auth.serverUrl": {
 					"type": "string",
-					"default": "https://example-auth.metaform.fi/auth",
+					"default": "http://example-auth.metaform.fi/auth",
 					"description": "Metaform auth server URL"
 				},
 				"metaform.auth.realm": {

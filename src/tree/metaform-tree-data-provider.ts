@@ -1,8 +1,10 @@
+import { isIP } from 'net';
 import * as vscode from 'vscode';
 import Api from "../api/api";
+import Config from '../config';
 import { EmailNotification, ExportTheme, Metaform } from '../generated/client/api';
 
-/**
+/**https://example-auth.metaform.fi/auth
  * Tree data provider for Metaform data
  */
 export class MetaformTreeDataProvider implements vscode.TreeDataProvider<AbstractTreeItem> {
@@ -84,8 +86,29 @@ export class MetaformTreeDataProvider implements vscode.TreeDataProvider<Abstrac
 	 * @returns Metaforms as tree items
 	 */
   private async listMetaformItems() {
-    const metaforms = await Api.listMetaforms();
-		return metaforms.map(metaform => new MetaformTreeItem(metaform));
+	  const metaformApis = Config.getApiConfig().multipleApis;
+	
+	  const metaformLists = await Promise.all(metaformApis.map(metaformApi=>{
+		  console.log(metaformApi);
+		Api.setBasePath(metaformApi.apiAddress); 
+		Api.setKeycloakPassword(metaformApi.authPassword);
+		Api.setKeycloakUser(metaformApi.authUser);
+		Api.setKeycloakRealm(metaformApi.authRealm);
+		Api.setKeycloakUrl(metaformApi.authUrl);
+		Api.setKeycloakClientId(metaformApi.authClientId);
+		Api.setkeycloakSecret(metaformApi.authClientSecret);
+		return Api.listMetaforms();
+	  }));
+       console.log(metaformLists);
+	  let treeItems: MetaformTreeItem[] = [];
+
+	  metaformLists.forEach(metaformList => {
+		treeItems = treeItems.concat(metaformList.map(metaform=> new MetaformTreeItem(metaform)));
+	  });
+
+	  console.log(treeItems);
+
+	 return treeItems;
   }
 
 	/**

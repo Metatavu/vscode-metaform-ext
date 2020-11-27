@@ -7,13 +7,50 @@ interface AuthenticatedApi {
   setDefaultAuthentication: (auth: Authentication) => void
 }
 
-const basePath = Config.getApiConfig().url;
+const defaultBasePath = Config.getApiConfig().url;
 
 /**
  * Class for handling API operations
  */
 export default new class Api {
 
+ private basePath: string = defaultBasePath;
+ private keycloakUser: string;
+ private keycloakPassword: string;
+ private keycloakRealm: string;
+ private keycloakClientId: string;
+ private keycloakUrl: string;
+ private keycloakClientSecret: string;
+ 
+ public setkeycloakSecret (keycloakClientSecret: string) {
+   this.keycloakClientSecret = keycloakClientSecret;
+ }
+
+ public setBasePath(basePath: string) {
+   this.basePath = basePath;
+ }
+
+ public setKeycloakUser(keycloakUser: string) {
+   this.keycloakUser = keycloakUser;
+ }
+
+ public setKeycloakPassword(keycloakPassword: string) {
+  this.keycloakPassword = keycloakPassword;
+}
+
+public setKeycloakClientId(keycloakClientId: string) {
+  this.keycloakClientId = keycloakClientId;
+}
+
+public setKeycloakRealm(keycloakRealm: string) {
+  this.keycloakRealm = keycloakRealm;
+}
+
+public setKeycloakUrl(keycloakUrl: string) {
+  this.keycloakUrl = keycloakUrl;
+}
+
+ 
   /**
    * Finds an export theme from API
    * 
@@ -233,7 +270,7 @@ export default new class Api {
       const api = await this.getMetaformsApi();
       (await api.updateMetaform(metaform, metaform.id!));
     } catch (e) {
-      console.error("Failed to delete metaform", e);
+      console.error("Failed to update metaform", e);
       throw e;
     }
   }
@@ -252,21 +289,23 @@ export default new class Api {
    * Gets initialized metaforms api
    */
   private async getMetaformsApi() {
-    return await this.applyAuthentication(new MetaformsApi(basePath));    
+    return await this.applyAuthentication(new MetaformsApi(this.basePath));    
   }
 
+
+  
   /**
    * Gets initialized export themes api
    */
   private async getExportThemesApi() {
-    return await this.applyAuthentication(new ExportThemesApi(basePath));    
+    return await this.applyAuthentication(new ExportThemesApi(this.basePath));    
   }
 
   /**
    * Gets initialized export theme files api
    */
   private async getExportThemeFilesApi() {
-    return await this.applyAuthentication(new ExportThemeFilesApi(basePath));    
+    return await this.applyAuthentication(new ExportThemeFilesApi(this.basePath));    
   }
 
   /**
@@ -275,7 +314,7 @@ export default new class Api {
    * @returns initialized email notifications api
    */
   private async getEmailNotificationsApi() {
-    return await this.applyAuthentication(new EmailNotificationsApi(basePath));    
+    return await this.applyAuthentication(new EmailNotificationsApi(this.basePath));    
   }
 
   /**
@@ -298,8 +337,8 @@ export default new class Api {
    * 
    * @returns access token
    */
-  private async getAccessToken(): Promise<string> {
-    const accessToken = await Auth.getAccessToken();
+  public async getAccessToken(): Promise<string> {
+    const accessToken = await Auth.getAccessToken(this.keycloakUrl, this.keycloakRealm, this.keycloakClientId, this.keycloakUser, this.keycloakPassword, this.keycloakClientSecret);
     return accessToken?.access_token;
   }
 

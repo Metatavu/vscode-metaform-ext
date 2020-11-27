@@ -13,16 +13,15 @@ export default class Auth {
    * 
    * @returns an access token
    */
-  public static async getAccessToken(): Promise<AccessToken> {
+  public static async getAccessToken(serverUrl: string, realm: string, clientId: string, username: string, password: string, clientSecret: string): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
-      const authConfig = Config.getAuthConfig();
-      const url = `${authConfig.serverUrl}/realms/${authConfig.realm}/protocol/openid-connect/token`;
-  
+      const url = `${serverUrl}/realms/${realm}/protocol/openid-connect/token`;
+      console.log(url);
       const body = new URLSearchParams();
-      body.append("client_id", authConfig.clientId);
-      body.append("client_secret", authConfig.clientSecret);
-      body.append("username", authConfig.username);
-      body.append("password", authConfig.password);
+      body.append("client_id", clientId);
+      body.append("client_secret", clientSecret);
+      body.append("username", username);
+      body.append("password", password);
       body.append("grant_type", "password");
 
       const options = { body: body.toString(), headers: { "content-type": "application/x-www-form-urlencoded" } };

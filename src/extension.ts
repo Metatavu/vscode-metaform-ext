@@ -45,8 +45,7 @@ const writeFile = (filePath: string, content: string) => {
  * 
  * @param context extension context
  */
-export function activate(context: vscode.ExtensionContext) {
-
+export async function activate(context: vscode.ExtensionContext) {
 	const metaformTreeDataProvider = new MetaformTreeDataProvider();
 	vscode.window.registerTreeDataProvider('metaformTreeDataProvider', metaformTreeDataProvider);
 	vscode.commands.registerCommand('metaformTreeDataProvider.refresh', () => metaformTreeDataProvider.refresh());
