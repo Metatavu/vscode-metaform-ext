@@ -191,11 +191,21 @@ export default new class Api {
     }
   }
 
-
-
-
-
-
+  /**
+   * Creates new metaform to API
+   * 
+   * @param id id
+   * @returns metaform
+   */
+  public async createMetaform(metaform: Metaform) {
+    try {
+      const api = await this.getMetaformsApi();
+      return (await api.createMetaform(metaform)).body;
+    } catch (e) {
+      console.error("Failed to create metaform", e);
+      throw e;
+    }
+  }
 
   /**
    * Finds a metaform from API

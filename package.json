@@ -17,7 +17,11 @@
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
-			{
+      {
+				"command": "metaformTreeDataProvider.createMetaform",
+				"title": "Create Metaform"
+			},
+      {
 				"command": "metaformTreeDataProvider.downloadMetaform",
 				"title": "Download Metaform"
 			},
@@ -80,6 +84,10 @@
 				}
 			],
 			"view/item/context": [
+        {
+          "command": "metaformTreeDataProvider.createMetaform",
+          "when": "view == metaformTreeDataProvider && viewItem == metaforms"
+        },
 				{
 					"command": "metaformTreeDataProvider.downloadMetaform",
 					"when": "view == metaformTreeDataProvider && viewItem == metaform"

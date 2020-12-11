@@ -51,6 +51,11 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerTreeDataProvider('metaformTreeDataProvider', metaformTreeDataProvider);
 	vscode.commands.registerCommand('metaformTreeDataProvider.refresh', () => metaformTreeDataProvider.refresh());
 
+	vscode.commands.registerCommand('metaformTreeDataProvider.createMetaform', async (node: MetaformTreeItem) => {
+		await Api.createMetaform({});
+    metaformTreeDataProvider.refresh();
+  });
+  
 	vscode.commands.registerCommand('metaformTreeDataProvider.downloadMetaform', async (node: MetaformTreeItem) => {
 		const rootPath = vscode.workspace.rootPath || "";
 		const metaform = await Api.findMetaform(node.id!);
