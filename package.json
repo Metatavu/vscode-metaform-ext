@@ -129,36 +129,10 @@
 		"configuration": {
 			"title": "Metaform",
 			"properties": {
-				"metaform.api.url": {
-					"type": "string",
-					"default": "https://example-api.metaform.fi/v1",
-					"description": "Metaform API URL"
-				},
-				"metaform.auth.serverUrl": {
-					"type": "string",
-					"default": "https://example-auth.metaform.fi/auth",
-					"description": "Metaform auth server URL"
-				},
-				"metaform.auth.realm": {
-					"type": "string",
-					"description": "Metaform auth realm"
-				},
-				"metaform.auth.clientId": {
-					"type": "string",
-					"description": "Metaform auth client id"
-				},
-				"metaform.auth.clientSecret": {
-					"type": "string",
-					"description": "Metaform auth client secret"
-				},
-				"metaform.auth.username": {
-					"type": "string",
-					"description": "Metaform auth username"
-				},
-				"metaform.auth.password": {
-					"type": "string",
-					"description": "Metaform auth password"
-				}
+        "metaform.apis": {
+          "type": "object",
+          "default": { }
+        }
 			}
 		}
 	},
