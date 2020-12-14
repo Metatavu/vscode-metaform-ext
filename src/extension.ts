@@ -1,11 +1,10 @@
 import * as vscode from 'vscode';
-import Api from './api/api';
+import { getApi } from './api/api';
 import { MetaformTreeDataProvider, MetaformTreeItem, PdfExportThemesTreeItem, EmailNotificationTreeItem, EmailNotificationsTreeItem } from './tree/metaform-tree-data-provider';
 import * as fs from 'fs';
 import * as path from "path";
 import { EmailNotification, Metaform } from './generated/client/api';
 import { promisify } from "util";
-import api from './api/api';
 
 const readdirPromise = promisify(fs.readdir);
 const statPromise = promisify(fs.stat);
@@ -26,7 +25,7 @@ const readTree = async (folder: string): Promise<string[]> => {
 	}));
 	
   return subfiles.reduce((a, b) => a.concat(b, []));
-}
+};
 
 /**
  * Writes a file to local file
@@ -38,7 +37,7 @@ const writeFile = (filePath: string, content: string) => {
 	const folder = path.resolve(filePath, "..");
 	fs.mkdirSync(folder, { recursive: true });
 	fs.writeFileSync(filePath, content, 'utf-8');
-}
+};
 
 /**
  * Method for extension activation
@@ -52,28 +51,28 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('metaformTreeDataProvider.refresh', () => metaformTreeDataProvider.refresh());
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.createMetaform', async (node: MetaformTreeItem) => {
-		await Api.createMetaform({});
+		await getApi(node.getApiName()).createMetaform({});
     metaformTreeDataProvider.refresh();
   });
   
 	vscode.commands.registerCommand('metaformTreeDataProvider.downloadMetaform', async (node: MetaformTreeItem) => {
 		const rootPath = vscode.workspace.rootPath || "";
-		const metaform = await Api.findMetaform(node.id!);
+		const metaform = await getApi(node.getApiName()).findMetaform(node.id!);
 
 		if (metaform) {
 			const formPath = `${rootPath}/${metaform.id}.json`;
 			fs.writeFileSync(formPath, JSON.stringify(metaform, null, 2), 'utf-8');
-			vscode.window.showInformationMessage(`Successfully read metaform JSON into ${formPath}.`)
+			vscode.window.showInformationMessage(`Successfully read metaform JSON into ${formPath}.`);
 		} else {
-			vscode.window.showErrorMessage("Failed to fetch Metaform")
+			vscode.window.showErrorMessage("Failed to fetch Metaform");
 		}
 	});
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.downloadPdfExportTheme', async (node: PdfExportThemesTreeItem) => {
 		const id = node.id!;
 		const rootPath = vscode.workspace.rootPath || "";
-		const theme = await Api.findExportTheme(id);
-		const files = await Api.listExportThemeFiles(id);
+		const theme = await getApi(node.getApiName()).findExportTheme(id);
+		const files = await getApi(node.getApiName()).listExportThemeFiles(id);
 
 		if (theme) {
 			const basePath = `${rootPath}/metaform/export-themes/${theme.name}/`;
@@ -82,17 +81,17 @@ export function activate(context: vscode.ExtensionContext) {
 				writeFile(basePath + file.path, file.content);
 			});
 			
-			vscode.window.showInformationMessage(`Successfully downloaded theme ${basePath}.`)
+			vscode.window.showInformationMessage(`Successfully downloaded theme ${basePath}.`);
 		} else {
-			vscode.window.showErrorMessage("Failed to download theme")
+			vscode.window.showErrorMessage("Failed to download theme");
 		}
 	});
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.updatePdfExportTheme', async (node: PdfExportThemesTreeItem) => {
 		const id = node.id!;
 		const rootPath = vscode.workspace.rootPath || "";
-		const theme = await Api.findExportTheme(id);
-		const existingFiles = await Api.listExportThemeFiles(id);
+		const theme = await getApi(node.getApiName()).findExportTheme(id);
+		const existingFiles = await getApi(node.getApiName()).listExportThemeFiles(id);
 
 		if (theme) {
 			let createCount: number = 0;
@@ -111,47 +110,47 @@ export function activate(context: vscode.ExtensionContext) {
 				if (index > -1) {
 					const updateFile = existingFiles.splice(index, 1)[0];
 					if (content && content !== updateFile.content) {
-						await api.updateExportThemeFile({ ...updateFile, content: content });
+						await getApi(node.getApiName()).updateExportThemeFile({ ...updateFile, content: content });
 					}
 					updateCount++;
 				} else {
 					createCount++;
 					if (content) {
-            await api.createExportThemeFile({ path: relativePath, themeId: theme.id!, content: content });
+            await getApi(node.getApiName()).createExportThemeFile({ path: relativePath, themeId: theme.id!, content: content });
 					}
 				}
 			}
 
 			for (let i = 0; i < existingFiles.length; i++) {
-				await api.deleteExportThemeFile(existingFiles[i]);
+				await getApi(node.getApiName()).deleteExportThemeFile(existingFiles[i]);
 				deleteCount++;
 			}
 
-			vscode.window.showInformationMessage(`Successfully updated theme ${theme.name}. Files updated: ${updateCount}, created ${createCount}, deleted ${deleteCount}.`)
+			vscode.window.showInformationMessage(`Successfully updated theme ${theme.name}. Files updated: ${updateCount}, created ${createCount}, deleted ${deleteCount}.`);
 		} else {
-			vscode.window.showErrorMessage("Failed to update theme")
+			vscode.window.showErrorMessage("Failed to update theme");
 		}
 	});
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.downloadEmailNotification', async (node: EmailNotificationTreeItem) => {
 		const metaformId = node.metaformId;
 		const emailNotificationId = node.id!;
-		const emailNotification = await Api.findEmailNotification(metaformId, emailNotificationId);
+		const emailNotification = await getApi(node.getApiName()).findEmailNotification(metaformId, emailNotificationId);
 		const rootPath = vscode.workspace.rootPath || "";
 		
 		if (emailNotification) {
 			const filePath = `${rootPath}/metaform/${metaformId}/email-notifications/${emailNotificationId}.json`;
 			writeFile(filePath, JSON.stringify(emailNotification, null, 2));		
-			vscode.window.showInformationMessage(`Successfully downloaded email notification ${filePath}.`)
+			vscode.window.showInformationMessage(`Successfully downloaded email notification ${filePath}.`);
 		} else {
-			vscode.window.showErrorMessage(`Failed to downloaded email notification ${emailNotificationId}.`)
+			vscode.window.showErrorMessage(`Failed to downloaded email notification ${emailNotificationId}.`);
 		}
 	});
 
 	vscode.commands.registerCommand('metaformTreeDataProvider.createEmailNotification', async (node: EmailNotificationsTreeItem) => {
 		const metaformId = node.metaformId;
 		
-		await Api.createEmailNotification(metaformId, {
+		await getApi(node.getApiName()).createEmailNotification(metaformId, {
 			'subjectTemplate': 'Example subject',
 			'contentTemplate': 'Example content',
 			'emails': ["reciepient@example.com"],
@@ -175,11 +174,11 @@ export function activate(context: vscode.ExtensionContext) {
 			value: "Yes"
 		});
 
-		if (value && value.toLowerCase() == "yes") {
+		if (value && value.toLowerCase() === "yes") {
 			vscode.window.showInformationMessage(`Updating email notification ${emailNotificationId}...`);
 			const emailNotification = JSON.parse(fs.readFileSync(filePath, 'utf-8')) as EmailNotification;
-			await Api.updateEmailNotification(metaformId, emailNotification);
-			vscode.window.showInformationMessage(`Successfully updated email notification ${emailNotificationId}`)			
+			await getApi(node.getApiName()).updateEmailNotification(metaformId, emailNotification);
+			vscode.window.showInformationMessage(`Successfully updated email notification ${emailNotificationId}`);
 		}
 
 		metaformTreeDataProvider.refresh();
@@ -194,10 +193,10 @@ export function activate(context: vscode.ExtensionContext) {
 			value: "Yes"
 		});
 
-		if (value && value.toLowerCase() == "yes") {
+		if (value && value.toLowerCase() === "yes") {
 			vscode.window.showInformationMessage(`Deleting email notification ${emailNotificationId}...`);
-			await Api.deleteEmailNotification(metaformId, emailNotificationId);
-			vscode.window.showInformationMessage(`Successfully deleted email notification ${emailNotificationId}`)			
+			await getApi(node.getApiName()).deleteEmailNotification(metaformId, emailNotificationId);
+			vscode.window.showInformationMessage(`Successfully deleted email notification ${emailNotificationId}`);
 		}
 
 		metaformTreeDataProvider.refresh();
@@ -212,12 +211,12 @@ export function activate(context: vscode.ExtensionContext) {
 			value: "Yes"
 		});
 
-		if (value && value.toLowerCase() == "yes") {
+		if (value && value.toLowerCase() === "yes") {
 			vscode.window.showInformationMessage(`Updating metaform ${id}...`);
 			const formPath = `${rootPath}/${id}.json`;
 			const metaform = JSON.parse(fs.readFileSync(formPath, 'utf-8')) as Metaform;
-			await Api.updateMetaform(metaform);
-			vscode.window.showInformationMessage(`Successfully updated metaform ${id}`)			
+			await getApi(node.getApiName()).updateMetaform(metaform);
+			vscode.window.showInformationMessage(`Successfully updated metaform ${id}`);	
 		}
 	});
 	
@@ -228,8 +227,8 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 
 		if (value) {
-			const metaform = await Api.deleteMetaform(id);
-			vscode.window.showInformationMessage(`Successfully deleted metaform ${id}`)
+			const metaform = await getApi(node.getApiName()).deleteMetaform(id);
+			vscode.window.showInformationMessage(`Successfully deleted metaform ${id}`);
 		}
 	});
 

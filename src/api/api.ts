@@ -7,12 +7,21 @@ interface AuthenticatedApi {
   setDefaultAuthentication: (auth: Authentication) => void
 }
 
-const basePath = Config.getApiConfig().url;
-
 /**
  * Class for handling API operations
  */
-export default new class Api {
+class Api {
+
+  private apiName: string;
+
+  /**
+   * Constructor for API object
+   * 
+   * @param apiName API name
+   */
+  constructor(apiName: string) {
+    this.apiName = apiName;
+  }
 
   /**
    * Finds an export theme from API
@@ -262,21 +271,21 @@ export default new class Api {
    * Gets initialized metaforms api
    */
   private async getMetaformsApi() {
-    return await this.applyAuthentication(new MetaformsApi(basePath));    
+    return await this.applyAuthentication(new MetaformsApi(this.getBasePath()));    
   }
 
   /**
    * Gets initialized export themes api
    */
   private async getExportThemesApi() {
-    return await this.applyAuthentication(new ExportThemesApi(basePath));    
+    return await this.applyAuthentication(new ExportThemesApi(this.getBasePath()));    
   }
 
   /**
    * Gets initialized export theme files api
    */
   private async getExportThemeFilesApi() {
-    return await this.applyAuthentication(new ExportThemeFilesApi(basePath));    
+    return await this.applyAuthentication(new ExportThemeFilesApi(this.getBasePath()));    
   }
 
   /**
@@ -285,7 +294,16 @@ export default new class Api {
    * @returns initialized email notifications api
    */
   private async getEmailNotificationsApi() {
-    return await this.applyAuthentication(new EmailNotificationsApi(basePath));    
+    return await this.applyAuthentication(new EmailNotificationsApi(this.getBasePath()));    
+  }
+
+  /**
+   * Returns base path for given API name
+   * 
+   * @returns base path for API
+   */
+  private getBasePath() {
+    return Config.getApiConfig(this.apiName).url;
   }
 
   /**
@@ -309,8 +327,18 @@ export default new class Api {
    * @returns access token
    */
   private async getAccessToken(): Promise<string> {
-    const accessToken = await Auth.getAccessToken();
+    const accessToken = await Auth.getAccessToken(this.apiName);
     return accessToken?.access_token;
   }
 
+}
+
+/**
+ * Returns initialized API instance
+ * 
+ * @param apiName API name
+ * @returns initialized API instance
+ */
+export function getApi(apiName: string) {
+  return new Api(apiName);
 }

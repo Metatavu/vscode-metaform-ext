@@ -11,11 +11,12 @@ export default class Auth {
   /**
    * Resolves an access token and returns it
    * 
+   * @param apiName API name
    * @returns an access token
    */
-  public static async getAccessToken(): Promise<AccessToken> {
+  public static async getAccessToken(apiName: string): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
-      const authConfig = Config.getAuthConfig();
+      const authConfig = Config.getAuthConfig(apiName);
       const url = `${authConfig.serverUrl}/realms/${authConfig.realm}/protocol/openid-connect/token`;
   
       const body = new URLSearchParams();
