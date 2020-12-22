@@ -22,6 +22,10 @@ export class MetaformScripts {
     * List of scripts run after a reply is updated
     */
     'afterUpdateReply'?: Array<MetaformScript>;
+    /**
+    * List of scripts run when generating a metaform Excel export
+    */
+    'metaformExportXlsx'?: Array<MetaformScript>;
 
     static discriminator: string | undefined = undefined;
 
@@ -34,6 +38,11 @@ export class MetaformScripts {
         {
             "name": "afterUpdateReply",
             "baseName": "afterUpdateReply",
+            "type": "Array<MetaformScript>"
+        },
+        {
+            "name": "metaformExportXlsx",
+            "baseName": "metaformExportXlsx",
             "type": "Array<MetaformScript>"
         }    ];
 

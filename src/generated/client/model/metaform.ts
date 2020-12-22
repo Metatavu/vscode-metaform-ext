@@ -27,6 +27,10 @@ export class Metaform {
     * Are drafts allowed or not
     */
     'allowDrafts'?: boolean;
+    /**
+    * Generate reply owner keys to replies.
+    */
+    'allowReplyOwnerKeys'?: boolean;
     'title'?: string;
     'sections'?: Array<MetaformSection>;
     'filters'?: Array<MetaformFilter>;
@@ -58,6 +62,11 @@ export class Metaform {
         {
             "name": "allowDrafts",
             "baseName": "allowDrafts",
+            "type": "boolean"
+        },
+        {
+            "name": "allowReplyOwnerKeys",
+            "baseName": "allowReplyOwnerKeys",
             "type": "boolean"
         },
         {

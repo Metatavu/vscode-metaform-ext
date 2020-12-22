@@ -268,8 +268,9 @@ export class RepliesApi {
      * @summary Deletes a reply
      * @param metaformId Metaform id
      * @param replyId Reply id
+     * @param ownerKey Reply owner key
      */
-    public async deleteReply (metaformId: string, replyId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async deleteReply (metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
@@ -292,6 +293,10 @@ export class RepliesApi {
         // verify required parameter 'replyId' is not null or undefined
         if (replyId === null || replyId === undefined) {
             throw new Error('Required parameter replyId was null or undefined when calling deleteReply.');
+        }
+
+        if (ownerKey !== undefined) {
+            localVarQueryParameters['ownerKey'] = ObjectSerializer.serialize(ownerKey, "string");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -346,8 +351,9 @@ export class RepliesApi {
      * @summary Find a single reply
      * @param metaformId Metaform id
      * @param replyId Reply id
+     * @param ownerKey Reply owner key
      */
-    public async findReply (metaformId: string, replyId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Reply;  }> {
+    public async findReply (metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Reply;  }> {
         const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
@@ -370,6 +376,10 @@ export class RepliesApi {
         // verify required parameter 'replyId' is not null or undefined
         if (replyId === null || replyId === undefined) {
             throw new Error('Required parameter replyId was null or undefined when calling findReply.');
+        }
+
+        if (ownerKey !== undefined) {
+            localVarQueryParameters['ownerKey'] = ObjectSerializer.serialize(ownerKey, "string");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -632,8 +642,9 @@ export class RepliesApi {
      * @param reply Payload
      * @param metaformId Metaform id
      * @param replyId Reply id
+     * @param ownerKey Reply owner key
      */
-    public async updateReply (reply: Reply, metaformId: string, replyId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async updateReply (reply: Reply, metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
@@ -661,6 +672,10 @@ export class RepliesApi {
         // verify required parameter 'replyId' is not null or undefined
         if (replyId === null || replyId === undefined) {
             throw new Error('Required parameter replyId was null or undefined when calling updateReply.');
+        }
+
+        if (ownerKey !== undefined) {
+            localVarQueryParameters['ownerKey'] = ObjectSerializer.serialize(ownerKey, "string");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);

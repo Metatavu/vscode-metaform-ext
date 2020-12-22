@@ -12,17 +12,11 @@
 
 import { RequestFile } from '../api';
 
-export class Reply {
+export class Draft {
     'id'?: string;
-    'userId'?: string;
-    'revision'?: Date;
-    /**
-    * Reply owner key allows user to perform edit and delete operations on given reply. Key is returned only once on creation time and will not be recorable afterwards. 
-    */
-    'ownerKey'?: string;
+    'data': { [key: string]: object; };
     'createdAt'?: Date;
     'modifiedAt'?: Date;
-    'data'?: { [key: string]: object; };
 
     static discriminator: string | undefined = undefined;
 
@@ -33,19 +27,9 @@ export class Reply {
             "type": "string"
         },
         {
-            "name": "userId",
-            "baseName": "userId",
-            "type": "string"
-        },
-        {
-            "name": "revision",
-            "baseName": "revision",
-            "type": "Date"
-        },
-        {
-            "name": "ownerKey",
-            "baseName": "ownerKey",
-            "type": "string"
+            "name": "data",
+            "baseName": "data",
+            "type": "{ [key: string]: object; }"
         },
         {
             "name": "createdAt",
@@ -56,15 +40,10 @@ export class Reply {
             "name": "modifiedAt",
             "baseName": "modifiedAt",
             "type": "Date"
-        },
-        {
-            "name": "data",
-            "baseName": "data",
-            "type": "{ [key: string]: object; }"
         }    ];
 
     static getAttributeTypeMap() {
-        return Reply.attributeTypeMap;
+        return Draft.attributeTypeMap;
     }
 }
 

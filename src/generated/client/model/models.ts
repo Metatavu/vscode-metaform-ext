@@ -1,5 +1,6 @@
 export * from './attachment';
 export * from './badRequest';
+export * from './draft';
 export * from './emailNotification';
 export * from './exportTheme';
 export * from './exportThemeFile';
@@ -28,6 +29,7 @@ import localVarRequest = require('request');
 
 import { Attachment } from './attachment';
 import { BadRequest } from './badRequest';
+import { Draft } from './draft';
 import { EmailNotification } from './emailNotification';
 import { ExportTheme } from './exportTheme';
 import { ExportThemeFile } from './exportThemeFile';
@@ -74,6 +76,7 @@ let enumsMap: {[index: string]: any} = {
 let typeMap: {[index: string]: any} = {
     "Attachment": Attachment,
     "BadRequest": BadRequest,
+    "Draft": Draft,
     "EmailNotification": EmailNotification,
     "ExportTheme": ExportTheme,
     "ExportThemeFile": ExportThemeFile,
