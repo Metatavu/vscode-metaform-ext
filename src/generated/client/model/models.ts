@@ -1,4 +1,6 @@
 export * from './attachment';
+export * from './auditLogEntry';
+export * from './auditLogEntryType';
 export * from './badRequest';
 export * from './draft';
 export * from './emailNotification';
@@ -28,6 +30,8 @@ export * from './replyExportFormat';
 import localVarRequest = require('request');
 
 import { Attachment } from './attachment';
+import { AuditLogEntry } from './auditLogEntry';
+import { AuditLogEntryType } from './auditLogEntryType';
 import { BadRequest } from './badRequest';
 import { Draft } from './draft';
 import { EmailNotification } from './emailNotification';
@@ -67,6 +71,7 @@ let primitives = [
                  ];
 
 let enumsMap: {[index: string]: any} = {
+        "AuditLogEntryType": AuditLogEntryType,
         "Metaform.ReplyStrategyEnum": Metaform.ReplyStrategyEnum,
         "MetaformFieldType": MetaformFieldType,
         "MetaformTableColumnType": MetaformTableColumnType,
@@ -75,6 +80,7 @@ let enumsMap: {[index: string]: any} = {
 
 let typeMap: {[index: string]: any} = {
     "Attachment": Attachment,
+    "AuditLogEntry": AuditLogEntry,
     "BadRequest": BadRequest,
     "Draft": Draft,
     "EmailNotification": EmailNotification,

@@ -239,8 +239,10 @@ export class MetaformsApi {
      * Finds a single Metaform
      * @summary Finds single Metaform
      * @param metaformId Metaform id
+     * @param replyId Id of reply the form is loaded for. Reply id needs to be defined when unanonymous form is authenticated with owner key 
+     * @param ownerKey Reply owner key
      */
-    public async findMetaform (metaformId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Metaform;  }> {
+    public async findMetaform (metaformId: string, replyId?: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Metaform;  }> {
         const localVarPath = this.basePath + '/metaforms/{metaformId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
@@ -257,6 +259,14 @@ export class MetaformsApi {
         // verify required parameter 'metaformId' is not null or undefined
         if (metaformId === null || metaformId === undefined) {
             throw new Error('Required parameter metaformId was null or undefined when calling findMetaform.');
+        }
+
+        if (replyId !== undefined) {
+            localVarQueryParameters['replyId'] = ObjectSerializer.serialize(replyId, "string");
+        }
+
+        if (ownerKey !== undefined) {
+            localVarQueryParameters['ownerKey'] = ObjectSerializer.serialize(ownerKey, "string");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);

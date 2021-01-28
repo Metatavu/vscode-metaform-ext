@@ -31,6 +31,10 @@ export class Metaform {
     * Generate reply owner keys to replies.
     */
     'allowReplyOwnerKeys'?: boolean;
+    /**
+    * Enable invitation functionality
+    */
+    'allowInvitations'?: boolean;
     'title'?: string;
     'sections'?: Array<MetaformSection>;
     'filters'?: Array<MetaformFilter>;
@@ -67,6 +71,11 @@ export class Metaform {
         {
             "name": "allowReplyOwnerKeys",
             "baseName": "allowReplyOwnerKeys",
+            "type": "boolean"
+        },
+        {
+            "name": "allowInvitations",
+            "baseName": "allowInvitations",
             "type": "boolean"
         },
         {

@@ -1,5 +1,7 @@
 export * from './attachmentsApi';
 import { AttachmentsApi } from './attachmentsApi';
+export * from './auditLogEntriesApi';
+import { AuditLogEntriesApi } from './auditLogEntriesApi';
 export * from './draftsApi';
 import { DraftsApi } from './draftsApi';
 export * from './emailNotificationsApi';
@@ -32,4 +34,4 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
-export const APIS = [AttachmentsApi, DraftsApi, EmailNotificationsApi, ExportThemeFilesApi, ExportThemesApi, MetaformsApi, RepliesApi];
+export const APIS = [AttachmentsApi, AuditLogEntriesApi, DraftsApi, EmailNotificationsApi, ExportThemeFilesApi, ExportThemesApi, MetaformsApi, RepliesApi];
