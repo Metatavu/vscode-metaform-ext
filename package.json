@@ -2,7 +2,7 @@
 	"name": "metaform",
 	"displayName": "metaform",
 	"description": "Metaform admin tools",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"publisher": "metatavu",
 	"repository": "github:Metatavu/vscode-metaform-ext",
 	"engines": {
