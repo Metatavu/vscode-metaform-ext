@@ -18,6 +18,7 @@ export enum MetaformFieldType {
     Hidden = <any> 'hidden',
     Email = <any> 'email',
     Number = <any> 'number',
+    Slider = <any> 'slider',
     Memo = <any> 'memo',
     Boolean = <any> 'boolean',
     Radio = <any> 'radio',
