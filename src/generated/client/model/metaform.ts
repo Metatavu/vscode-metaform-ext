@@ -35,6 +35,10 @@ export class Metaform {
     * Enable invitation functionality
     */
     'allowInvitations'?: boolean;
+    /**
+    * Toggles the autosaving functionality on the form. When autosaving is enabled the form will same itself every time the form valid and form values have been changed
+    */
+    'autosave'?: boolean;
     'title'?: string;
     'sections'?: Array<MetaformSection>;
     'filters'?: Array<MetaformFilter>;
@@ -76,6 +80,11 @@ export class Metaform {
         {
             "name": "allowInvitations",
             "baseName": "allowInvitations",
+            "type": "boolean"
+        },
+        {
+            "name": "autosave",
+            "baseName": "autosave",
             "type": "boolean"
         },
         {
