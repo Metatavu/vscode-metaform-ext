@@ -19,9 +19,9 @@ export enum MetaformTableColumnType {
     Email = <any> 'email',
     Autocomplete = <any> 'autocomplete',
     Number = <any> 'number',
-    Enum = <any> 'enum',
     Date = <any> 'date',
     Time = <any> 'time',
     Html = <any> 'html',
-    Button = <any> 'button'
+    Button = <any> 'button',
+    Enum = <any> 'enum'
 }

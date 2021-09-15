@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum AuditLogEntriesApiApiKeys {
-    bearer,
 }
 
 export class AuditLogEntriesApi {
@@ -42,7 +41,7 @@ export class AuditLogEntriesApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class AuditLogEntriesApi {
         (this.authentications as any)[AuditLogEntriesApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -99,7 +102,7 @@ export class AuditLogEntriesApi {
      * @param auditLogEntryId Audit log entry id
      */
     public async deleteAuditLogEntry (metaformId: string, auditLogEntryId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/auditLogEntries/{auditLogEntryId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/auditLogEntries/{auditLogEntryId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'auditLogEntryId' + '}', encodeURIComponent(String(auditLogEntryId)));
         let localVarQueryParameters: any = {};
@@ -137,7 +140,7 @@ export class AuditLogEntriesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -180,7 +183,7 @@ export class AuditLogEntriesApi {
      * @param createdAfter Filter results created after specified time
      */
     public async listAuditLogEntries (metaformId: string, userId?: string, replyId?: string, createdBefore?: string, createdAfter?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<AuditLogEntry>;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/auditLogEntries'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/auditLogEntries'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -228,7 +231,7 @@ export class AuditLogEntriesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

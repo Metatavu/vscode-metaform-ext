@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum EmailNotificationsApiApiKeys {
-    bearer,
 }
 
 export class EmailNotificationsApi {
@@ -42,7 +41,7 @@ export class EmailNotificationsApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class EmailNotificationsApi {
         (this.authentications as any)[EmailNotificationsApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -99,7 +102,7 @@ export class EmailNotificationsApi {
      * @param metaformId Metaform id
      */
     public async createEmailNotification (emailNotification: EmailNotification, metaformId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: EmailNotification;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/emailNotifications'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/emailNotifications'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -137,7 +140,7 @@ export class EmailNotificationsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -178,7 +181,7 @@ export class EmailNotificationsApi {
      * @param emailNotificationId Email notification id
      */
     public async deleteEmailNotification (metaformId: string, emailNotificationId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'emailNotificationId' + '}', encodeURIComponent(String(emailNotificationId)));
         let localVarQueryParameters: any = {};
@@ -216,7 +219,7 @@ export class EmailNotificationsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -256,7 +259,7 @@ export class EmailNotificationsApi {
      * @param emailNotificationId EmailNotification id
      */
     public async findEmailNotification (metaformId: string, emailNotificationId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: EmailNotification;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'emailNotificationId' + '}', encodeURIComponent(String(emailNotificationId)));
         let localVarQueryParameters: any = {};
@@ -294,7 +297,7 @@ export class EmailNotificationsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -334,7 +337,7 @@ export class EmailNotificationsApi {
      * @param metaformId Metaform id
      */
     public async listEmailNotifications (metaformId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<EmailNotification>;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/emailNotifications'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/emailNotifications'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -366,7 +369,7 @@ export class EmailNotificationsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -408,7 +411,7 @@ export class EmailNotificationsApi {
      * @param emailNotificationId EmailNotification id
      */
     public async updateEmailNotification (emailNotification: EmailNotification, metaformId: string, emailNotificationId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: EmailNotification;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/emailNotifications/{emailNotificationId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'emailNotificationId' + '}', encodeURIComponent(String(emailNotificationId)));
         let localVarQueryParameters: any = {};
@@ -452,7 +455,7 @@ export class EmailNotificationsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

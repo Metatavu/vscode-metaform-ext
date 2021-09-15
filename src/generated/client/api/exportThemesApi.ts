@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum ExportThemesApiApiKeys {
-    bearer,
 }
 
 export class ExportThemesApi {
@@ -42,7 +41,7 @@ export class ExportThemesApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class ExportThemesApi {
         (this.authentications as any)[ExportThemesApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -98,7 +101,7 @@ export class ExportThemesApi {
      * @param exportTheme Payload
      */
     public async createExportTheme (exportTheme: ExportTheme, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportTheme;  }> {
-        const localVarPath = this.basePath + '/exportThemes';
+        const localVarPath = this.basePath + '/v1/exportThemes';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json;charset=utf-8'];
@@ -130,7 +133,7 @@ export class ExportThemesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -170,7 +173,7 @@ export class ExportThemesApi {
      * @param exportThemeId export theme id
      */
     public async deleteExportTheme (exportThemeId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -202,7 +205,7 @@ export class ExportThemesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -241,7 +244,7 @@ export class ExportThemesApi {
      * @param exportThemeId export theme id
      */
     public async findExportTheme (exportThemeId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportTheme;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -273,7 +276,7 @@ export class ExportThemesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -312,7 +315,7 @@ export class ExportThemesApi {
      * @summary Lists form export themes
      */
     public async listExportThemes (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<ExportTheme>;  }> {
-        const localVarPath = this.basePath + '/exportThemes';
+        const localVarPath = this.basePath + '/v1/exportThemes';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json;charset=utf-8'];
@@ -338,7 +341,7 @@ export class ExportThemesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -379,7 +382,7 @@ export class ExportThemesApi {
      * @param exportThemeId ExportTheme id
      */
     public async updateExportTheme (exportTheme: ExportTheme, exportThemeId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportTheme;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -417,7 +420,7 @@ export class ExportThemesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

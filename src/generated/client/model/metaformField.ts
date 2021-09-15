@@ -12,9 +12,11 @@
 
 import { RequestFile } from '../api';
 import { FieldRule } from './fieldRule';
+import { MetaformFieldAutocomplete } from './metaformFieldAutocomplete';
 import { MetaformFieldFlags } from './metaformFieldFlags';
 import { MetaformFieldOption } from './metaformFieldOption';
 import { MetaformFieldPermissionContexts } from './metaformFieldPermissionContexts';
+import { MetaformFieldSource } from './metaformFieldSource';
 import { MetaformFieldType } from './metaformFieldType';
 import { MetaformTableColumn } from './metaformTableColumn';
 
@@ -62,8 +64,9 @@ export class MetaformField {
     * Options for radio, checklist, select fields
     */
     'options'?: Array<MetaformFieldOption>;
+    'autocomplete'?: MetaformFieldAutocomplete;
     /**
-    * Source url for autocomplete and autocomplete-multiple fields
+    * Source url for autocomplete and autocomplete-multiple fields. This field is deprecated, use autocomplete instead.
     */
     'sourceUrl'?: string;
     /**
@@ -106,6 +109,7 @@ export class MetaformField {
     * Html code for html field.
     */
     'html'?: string;
+    'source'?: MetaformFieldSource;
 
     static discriminator: string | undefined = undefined;
 
@@ -206,6 +210,11 @@ export class MetaformField {
             "type": "Array<MetaformFieldOption>"
         },
         {
+            "name": "autocomplete",
+            "baseName": "autocomplete",
+            "type": "MetaformFieldAutocomplete"
+        },
+        {
             "name": "sourceUrl",
             "baseName": "source-url",
             "type": "string"
@@ -259,6 +268,11 @@ export class MetaformField {
             "name": "html",
             "baseName": "html",
             "type": "string"
+        },
+        {
+            "name": "source",
+            "baseName": "source",
+            "type": "MetaformFieldSource"
         }    ];
 
     static getAttributeTypeMap() {
