@@ -31,7 +31,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum AttachmentsApiApiKeys {
-    bearer,
 }
 
 export class AttachmentsApi {
@@ -41,7 +40,7 @@ export class AttachmentsApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -87,6 +86,10 @@ export class AttachmentsApi {
         (this.authentications as any)[AttachmentsApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -98,7 +101,7 @@ export class AttachmentsApi {
      * @param ownerKey Reply owner key
      */
     public async findAttachment (attachmentId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Attachment;  }> {
-        const localVarPath = this.basePath + '/attachments/{attachmentId}'
+        const localVarPath = this.basePath + '/v1/attachments/{attachmentId}'
             .replace('{' + 'attachmentId' + '}', encodeURIComponent(String(attachmentId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -134,7 +137,7 @@ export class AttachmentsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -175,7 +178,7 @@ export class AttachmentsApi {
      * @param ownerKey Reply owner key
      */
     public async findAttachmentData (attachmentId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Buffer;  }> {
-        const localVarPath = this.basePath + '/attachments/{attachmentId}/data'
+        const localVarPath = this.basePath + '/v1/attachments/{attachmentId}/data'
             .replace('{' + 'attachmentId' + '}', encodeURIComponent(String(attachmentId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -211,7 +214,7 @@ export class AttachmentsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum MetaformsApiApiKeys {
-    bearer,
 }
 
 export class MetaformsApi {
@@ -42,7 +41,7 @@ export class MetaformsApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class MetaformsApi {
         (this.authentications as any)[MetaformsApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -98,7 +101,7 @@ export class MetaformsApi {
      * @param metaform Payload
      */
     public async createMetaform (metaform: Metaform, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Metaform;  }> {
-        const localVarPath = this.basePath + '/metaforms';
+        const localVarPath = this.basePath + '/v1/metaforms';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json;charset=utf-8'];
@@ -130,7 +133,7 @@ export class MetaformsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -170,7 +173,7 @@ export class MetaformsApi {
      * @param metaformId Metaform id
      */
     public async deleteMetaform (metaformId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -202,7 +205,7 @@ export class MetaformsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -243,7 +246,7 @@ export class MetaformsApi {
      * @param ownerKey Reply owner key
      */
     public async findMetaform (metaformId: string, replyId?: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Metaform;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -283,7 +286,7 @@ export class MetaformsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -322,7 +325,7 @@ export class MetaformsApi {
      * @summary Lists Metaforms
      */
     public async listMetaforms (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Metaform>;  }> {
-        const localVarPath = this.basePath + '/metaforms';
+        const localVarPath = this.basePath + '/v1/metaforms';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json;charset=utf-8'];
@@ -348,7 +351,7 @@ export class MetaformsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -389,7 +392,7 @@ export class MetaformsApi {
      * @param metaformId Metaform id
      */
     public async updateMetaform (metaform: Metaform, metaformId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Metaform;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -427,7 +430,7 @@ export class MetaformsApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

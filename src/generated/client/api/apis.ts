@@ -14,6 +14,8 @@ export * from './metaformsApi';
 import { MetaformsApi } from './metaformsApi';
 export * from './repliesApi';
 import { RepliesApi } from './repliesApi';
+export * from './systemApi';
+import { SystemApi } from './systemApi';
 import * as fs from 'fs';
 import * as http from 'http';
 
@@ -34,4 +36,4 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
-export const APIS = [AttachmentsApi, AuditLogEntriesApi, DraftsApi, EmailNotificationsApi, ExportThemeFilesApi, ExportThemesApi, MetaformsApi, RepliesApi];
+export const APIS = [AttachmentsApi, AuditLogEntriesApi, DraftsApi, EmailNotificationsApi, ExportThemeFilesApi, ExportThemesApi, MetaformsApi, RepliesApi, SystemApi];

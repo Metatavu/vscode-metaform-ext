@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum ExportThemeFilesApiApiKeys {
-    bearer,
 }
 
 export class ExportThemeFilesApi {
@@ -42,7 +41,7 @@ export class ExportThemeFilesApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class ExportThemeFilesApi {
         (this.authentications as any)[ExportThemeFilesApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -99,7 +102,7 @@ export class ExportThemeFilesApi {
      * @param exportThemeId export theme id
      */
     public async createExportThemeFile (exportThemeFile: ExportThemeFile, exportThemeId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportThemeFile;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}/files'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}/files'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -137,7 +140,7 @@ export class ExportThemeFilesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -178,7 +181,7 @@ export class ExportThemeFilesApi {
      * @param exportThemeFileId export theme file id
      */
     public async deleteExportThemeFile (exportThemeId: string, exportThemeFileId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)))
             .replace('{' + 'exportThemeFileId' + '}', encodeURIComponent(String(exportThemeFileId)));
         let localVarQueryParameters: any = {};
@@ -216,7 +219,7 @@ export class ExportThemeFilesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -256,7 +259,7 @@ export class ExportThemeFilesApi {
      * @param exportThemeFileId export theme file id
      */
     public async findExportThemeFile (exportThemeId: string, exportThemeFileId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportThemeFile;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)))
             .replace('{' + 'exportThemeFileId' + '}', encodeURIComponent(String(exportThemeFileId)));
         let localVarQueryParameters: any = {};
@@ -294,7 +297,7 @@ export class ExportThemeFilesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -334,7 +337,7 @@ export class ExportThemeFilesApi {
      * @param exportThemeId export theme id
      */
     public async listExportThemeFiles (exportThemeId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<ExportThemeFile>;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}/files'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}/files'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -366,7 +369,7 @@ export class ExportThemeFilesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -408,7 +411,7 @@ export class ExportThemeFilesApi {
      * @param exportThemeFileId ExportThemeFile file id
      */
     public async updateExportThemeFile (exportThemeFile: ExportThemeFile, exportThemeId: string, exportThemeFileId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ExportThemeFile;  }> {
-        const localVarPath = this.basePath + '/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
+        const localVarPath = this.basePath + '/v1/exportThemes/{exportThemeId}/files/{exportThemeFileId}'
             .replace('{' + 'exportThemeId' + '}', encodeURIComponent(String(exportThemeId)))
             .replace('{' + 'exportThemeFileId' + '}', encodeURIComponent(String(exportThemeFileId)));
         let localVarQueryParameters: any = {};
@@ -452,7 +455,7 @@ export class ExportThemeFilesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

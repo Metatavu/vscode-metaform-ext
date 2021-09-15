@@ -32,7 +32,6 @@ let defaultBasePath = 'http://localhost';
 // ===============================================
 
 export enum RepliesApiApiKeys {
-    bearer,
 }
 
 export class RepliesApi {
@@ -42,7 +41,7 @@ export class RepliesApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new ApiKeyAuth('header', 'Authorization'),
+        'bearer': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,6 +87,10 @@ export class RepliesApi {
         (this.authentications as any)[RepliesApiApiKeys[key]].apiKey = value;
     }
 
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.bearer.accessToken = accessToken;
+    }
+
     public addInterceptor(interceptor: Interceptor) {
         this.interceptors.push(interceptor);
     }
@@ -99,7 +102,7 @@ export class RepliesApi {
      * @param format Export results in specified format (XLSX)
      */
     public async _export (metaformId: string, format: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Buffer;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/export'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/export'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -140,7 +143,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -183,7 +186,7 @@ export class RepliesApi {
      * @param replyMode specifies reply mode that will be used. possible values UPDATE, REVISION, CUMULATIVE
      */
     public async createReply (reply: Reply, metaformId: string, updateExisting?: boolean, replyMode?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Reply;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -229,7 +232,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -271,7 +274,7 @@ export class RepliesApi {
      * @param ownerKey Reply owner key
      */
     public async deleteReply (metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
         let localVarQueryParameters: any = {};
@@ -313,7 +316,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -354,7 +357,7 @@ export class RepliesApi {
      * @param ownerKey Reply owner key
      */
     public async findReply (metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Reply;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
         let localVarQueryParameters: any = {};
@@ -396,7 +399,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -445,7 +448,7 @@ export class RepliesApi {
      * @param maxResults How many items to return at one time
      */
     public async listReplies (metaformId: string, userId?: string, createdBefore?: string, createdAfter?: string, modifiedBefore?: string, modifiedAfter?: string, includeRevisions?: boolean, fields?: Array<string>, firstResult?: number, maxResults?: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Reply>;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -513,7 +516,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -555,7 +558,7 @@ export class RepliesApi {
      * @param format Export results in specified format (PDF)
      */
     public async replyExport (metaformId: string, replyId: string, format: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Buffer;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}/export'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies/{replyId}/export'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
         let localVarQueryParameters: any = {};
@@ -602,7 +605,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
@@ -645,7 +648,7 @@ export class RepliesApi {
      * @param ownerKey Reply owner key
      */
     public async updateReply (reply: Reply, metaformId: string, replyId: string, ownerKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/metaforms/{metaformId}/replies/{replyId}'
+        const localVarPath = this.basePath + '/v1/metaforms/{metaformId}/replies/{replyId}'
             .replace('{' + 'metaformId' + '}', encodeURIComponent(String(metaformId)))
             .replace('{' + 'replyId' + '}', encodeURIComponent(String(replyId)));
         let localVarQueryParameters: any = {};
@@ -693,7 +696,7 @@ export class RepliesApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.apiKey) {
+        if (this.authentications.bearer.accessToken) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));

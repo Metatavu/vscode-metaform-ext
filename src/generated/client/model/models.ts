@@ -11,9 +11,15 @@ export * from './forbidden';
 export * from './internalServerError';
 export * from './metaform';
 export * from './metaformField';
+export * from './metaformFieldAutocomplete';
+export * from './metaformFieldAutocompleteOptions';
+export * from './metaformFieldAutocompleteService';
 export * from './metaformFieldFlags';
 export * from './metaformFieldOption';
 export * from './metaformFieldPermissionContexts';
+export * from './metaformFieldSource';
+export * from './metaformFieldSourceOptions';
+export * from './metaformFieldSourceType';
 export * from './metaformFieldType';
 export * from './metaformFilter';
 export * from './metaformScript';
@@ -42,9 +48,15 @@ import { Forbidden } from './forbidden';
 import { InternalServerError } from './internalServerError';
 import { Metaform } from './metaform';
 import { MetaformField } from './metaformField';
+import { MetaformFieldAutocomplete } from './metaformFieldAutocomplete';
+import { MetaformFieldAutocompleteOptions } from './metaformFieldAutocompleteOptions';
+import { MetaformFieldAutocompleteService } from './metaformFieldAutocompleteService';
 import { MetaformFieldFlags } from './metaformFieldFlags';
 import { MetaformFieldOption } from './metaformFieldOption';
 import { MetaformFieldPermissionContexts } from './metaformFieldPermissionContexts';
+import { MetaformFieldSource } from './metaformFieldSource';
+import { MetaformFieldSourceOptions } from './metaformFieldSourceOptions';
+import { MetaformFieldSourceType } from './metaformFieldSourceType';
 import { MetaformFieldType } from './metaformFieldType';
 import { MetaformFilter } from './metaformFilter';
 import { MetaformScript } from './metaformScript';
@@ -73,6 +85,8 @@ let primitives = [
 let enumsMap: {[index: string]: any} = {
         "AuditLogEntryType": AuditLogEntryType,
         "Metaform.ReplyStrategyEnum": Metaform.ReplyStrategyEnum,
+        "MetaformFieldAutocompleteService": MetaformFieldAutocompleteService,
+        "MetaformFieldSourceType": MetaformFieldSourceType,
         "MetaformFieldType": MetaformFieldType,
         "MetaformTableColumnType": MetaformTableColumnType,
         "ReplyExportFormat": ReplyExportFormat,
@@ -91,9 +105,13 @@ let typeMap: {[index: string]: any} = {
     "InternalServerError": InternalServerError,
     "Metaform": Metaform,
     "MetaformField": MetaformField,
+    "MetaformFieldAutocomplete": MetaformFieldAutocomplete,
+    "MetaformFieldAutocompleteOptions": MetaformFieldAutocompleteOptions,
     "MetaformFieldFlags": MetaformFieldFlags,
     "MetaformFieldOption": MetaformFieldOption,
     "MetaformFieldPermissionContexts": MetaformFieldPermissionContexts,
+    "MetaformFieldSource": MetaformFieldSource,
+    "MetaformFieldSourceOptions": MetaformFieldSourceOptions,
     "MetaformFilter": MetaformFilter,
     "MetaformScript": MetaformScript,
     "MetaformScripts": MetaformScripts,
