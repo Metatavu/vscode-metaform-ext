@@ -6,6 +6,8 @@ import * as path from "path";
 import { EmailNotification, Metaform } from './generated/client/api';
 import { promisify } from "util";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const readdirPromise = promisify(fs.readdir);
 const statPromise = promisify(fs.stat);
 

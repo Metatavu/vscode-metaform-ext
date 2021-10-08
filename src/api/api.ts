@@ -1,7 +1,7 @@
 import Auth from "../auth";
 import Config from "../config";
 // eslint-disable-next-line max-len
-import { ApiKeyAuth, Authentication, EmailNotification, EmailNotificationsApi, ExportThemeFile, ExportThemeFilesApi, ExportThemesApi, Metaform, MetaformsApi, OAuth} from "../generated/client/api";
+import { ApiKeyAuth, Authentication, EmailNotification, EmailNotificationsApi, ExportThemeFile, ExportThemeFilesApi, ExportThemesApi, HttpError, Metaform, MetaformsApi, OAuth} from "../generated/client/api";
 
 interface AuthenticatedApi {  
   setDefaultAuthentication: (auth: Authentication) => void
@@ -252,7 +252,12 @@ class Api {
       const api = await this.getMetaformsApi();
       (await api.updateMetaform(metaform, metaform.id!));
     } catch (e) {
-      console.error("Failed to update metaform", e.body);
+      if (e instanceof HttpError) {
+        console.error("Failed to update metaform", e.body);
+      } else {
+        console.error("Failed to update metaform", e);
+      }
+      
       throw e;
     }
   }
