@@ -15,6 +15,7 @@ import http = require('http');
 
 /* tslint:disable:no-unused-locals */
 import { BadRequest } from '../model/badRequest';
+import { Conflict } from '../model/conflict';
 import { Forbidden } from '../model/forbidden';
 import { InternalServerError } from '../model/internalServerError';
 import { Metaform } from '../model/metaform';

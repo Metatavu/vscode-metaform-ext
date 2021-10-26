@@ -2,6 +2,7 @@ export * from './attachment';
 export * from './auditLogEntry';
 export * from './auditLogEntryType';
 export * from './badRequest';
+export * from './conflict';
 export * from './draft';
 export * from './emailNotification';
 export * from './exportTheme';
@@ -39,6 +40,7 @@ import { Attachment } from './attachment';
 import { AuditLogEntry } from './auditLogEntry';
 import { AuditLogEntryType } from './auditLogEntryType';
 import { BadRequest } from './badRequest';
+import { Conflict } from './conflict';
 import { Draft } from './draft';
 import { EmailNotification } from './emailNotification';
 import { ExportTheme } from './exportTheme';
@@ -96,6 +98,7 @@ let typeMap: {[index: string]: any} = {
     "Attachment": Attachment,
     "AuditLogEntry": AuditLogEntry,
     "BadRequest": BadRequest,
+    "Conflict": Conflict,
     "Draft": Draft,
     "EmailNotification": EmailNotification,
     "ExportTheme": ExportTheme,

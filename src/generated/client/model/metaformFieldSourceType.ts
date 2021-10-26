@@ -14,7 +14,6 @@ import { RequestFile } from '../api';
 
 export enum MetaformFieldSourceType {
     Default = <any> 'default',
-    ReplyMeta = <any> 'replyMeta',
     AccessToken = <any> 'accessToken',
     Autocomplete = <any> 'autocomplete'
 }

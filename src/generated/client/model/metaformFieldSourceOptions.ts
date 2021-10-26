@@ -14,13 +14,17 @@ import { RequestFile } from '../api';
 
 export class MetaformFieldSourceOptions {
     /**
-    * Source autocomplete field name. This option is used only when using autocomplete strategy
+    * Source autocomplete field name. This option is used only when using source type autocomplete
     */
     'autocompleteField'?: string;
     /**
-    * Name of the autocomplete item property to be used as field value. This option is used only when using autocomplete strategy
+    * Name of the autocomplete item property to be used as field value. This option is used only when using source type autocomplete
     */
     'autocompleteItemProperty'?: string;
+    /**
+    * Name of the user token attribute. This option is used only when using source type accessToken
+    */
+    'accessTokenAttribute'?: string;
 
     static discriminator: string | undefined = undefined;
 
@@ -33,6 +37,11 @@ export class MetaformFieldSourceOptions {
         {
             "name": "autocompleteItemProperty",
             "baseName": "autocompleteItemProperty",
+            "type": "string"
+        },
+        {
+            "name": "accessTokenAttribute",
+            "baseName": "accessTokenAttribute",
             "type": "string"
         }    ];
 

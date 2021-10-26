@@ -40,6 +40,7 @@ export class Metaform {
     */
     'autosave'?: boolean;
     'title'?: string;
+    'slug'?: string;
     'sections'?: Array<MetaformSection>;
     'filters'?: Array<MetaformFilter>;
     'scripts'?: MetaformScripts;
@@ -90,6 +91,11 @@ export class Metaform {
         {
             "name": "title",
             "baseName": "title",
+            "type": "string"
+        },
+        {
+            "name": "slug",
+            "baseName": "slug",
             "type": "string"
         },
         {
