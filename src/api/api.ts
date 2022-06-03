@@ -247,18 +247,24 @@ class Api {
     }
   }
 
+  /**
+   * Updates metaform
+   * 
+   * @param metaform metaform to be updated
+   */
   public async updateMetaform(metaform: Metaform) {
     try {
       const api = await this.getMetaformsApi();
       (await api.updateMetaform(metaform, metaform.id!));
     } catch (e) {
       if (e instanceof HttpError) {
-        console.error("Failed to update metaform", e.body);
+        const message = JSON.stringify((e.response as any).body || e.body);
+        console.error("Failed to update metaform", message);
+        throw new Error(`Failed to update metaform ${message}`);
       } else {
-        console.error("Failed to update metaform", e);
+        console.error("Failed to update metaform", e);      
+        throw new Error(`Failed to update metaform ${e}`);
       }
-      
-      throw e;
     }
   }
 
